@@ -1,27 +1,52 @@
-﻿Public Class FrmDistancia
-    Private Sub BtnLimpiar_Click(sender As Object, e As EventArgs) Handles BtnLimpiar.Click
-        Txt_x1.Text = ""
-        Txt_x2.Text = ""
-        Txt_y1.Text = ""
-        Txt_y2.Text = ""
-        TxtDistancia.Text = ""
-    End Sub
+﻿Public Class Form1
+    Dim nom, ApP1, ApM1 As String
+    Dim cadena As String
+    Dim d, m, a As String
 
-    Private Sub BtnCalcular_Click(sender As Object, e As EventArgs) Handles BtnCalcular.Click
-        Dim x1 As Double
-        Dim x2 As Double
-        Dim y1 As Double
-        Dim y2 As Double
+    Private Sub btnRFC_Click(sender As Object, e As EventArgs) Handles btnRFC.Click
+        If TxtNombre.Text = "" Or TxtApPaterno.Text = "" Or TxtApMaterno.Text = "" Or TxtD.Text = "" Or TxtM.Text = "" Or TxtA.Text = "" Then
+            MessageBox.Show("Uno o mas campos estan vacios", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        Else
+            For i = 1 To Len(TxtApPaterno.Text)
+                cadena = Mid(TxtApPaterno.Text, i, 1)
+                If i = 1 Then
+                    ApP1 = cadena
+                ElseIf i > 1 And cadena = "A" Or cadena = "E" Or cadena = "I" Or cadena = "O" Or cadena = "U" Then
+                    ApP1 = ApP1 + cadena
+                    Exit For
+                End If
+            Next
+            TxtRFC.Text = ApP1
+            For i = 1 To Len(TxtApMaterno.Text)
+                cadena = Mid(TxtApMaterno.Text, i, 1)
+                If i = 1 Then
+                    ApM1 = cadena
+                    Exit For
+                End If
+            Next
+            TxtRFC.Text = ApP1 + ApM1
+            For i = 1 To Len(TxtNombre.Text)
+                cadena = Mid(TxtNombre.Text, i, 1)
+                If i = 1 Then
+                    nom = cadena
+                    Exit For
+                End If
+            Next
+            TxtRFC.Text = ApP1 + ApM1 + nom
+            If TxtD.Text > 31 Or TxtM.Text > 12 Then
+                MessageBox.Show("La fecha es incorrecta", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            Else
+                d = TxtD.Text
+                m = TxtM.Text
+                a = TxtA.Text
+                TxtRFC.Text = ApP1 + ApM1 + nom + d + m + a
+            End If
 
-        x1 = Txt_x1.Text
-        x2 = Txt_x2.Text
-        y1 = Txt_y1.Text
-        y2 = Txt_y2.Text
 
-        TxtDistancia.Text = Math.Round(Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2)), 4)
-    End Sub
 
-    Private Sub BtnSalir_Click(sender As Object, e As EventArgs) Handles BtnSalir.Click
-        End
+        End If
+
     End Sub
 End Class
